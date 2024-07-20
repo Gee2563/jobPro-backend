@@ -7,7 +7,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 
 const userRoutes = require('./routes/UserRoutes')
-
+const applicationRoutes = require('./routes/applicationRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -18,7 +18,7 @@ app.use(bodyParser.json());
 
 // Routes
 app.use('/api/users', userRoutes);
-
+app.use('/api/applications', applicationRoutes);
 
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
