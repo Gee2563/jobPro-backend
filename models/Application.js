@@ -13,7 +13,7 @@ const ApplicationSchema = new mongoose.Schema({
   poiName: { type: String },
   poiLinkedIn: { type: String },
   extraInfo: { type: String },
-  stage: { type: String, enum: ['research', 'active', 'applied', 'follow-ups', 'interviewing', 'offers', 'reject/reviews'], default: 'research' },
+  stage: { type: String, enum: ['active/research', 'applied', 'follow-ups', 'interviewing', 'offers', 'reject/reviews'], default: 'research' },
   applicationDate: { type: Date, default: Date.now },
 });
 
