@@ -1,11 +1,13 @@
 // controllers/applicationController.js
 const Application = require('../models/application');
 
+// Get all applications
 const getApplications = async (req, res) => {
   const applications = await Application.find({ user: req.user._id });
   res.json(applications);
 };
 
+// Create a new application
 const createApplication = async (req, res) => {
   const {
     companyName, companyWebsite, jobTitle, pay, jobDescription,
@@ -24,6 +26,7 @@ const createApplication = async (req, res) => {
   res.status(201).json(createdApplication);
 };
 
+// Get an application by ID
 const getApplicationById = async (req, res) => {
   const application = await Application.findById(req.params.id);
 
@@ -34,6 +37,7 @@ const getApplicationById = async (req, res) => {
   }
 };
 
+// Update an application
 const updateApplication = async (req, res) => {
   const {
     companyName, companyWebsite, jobTitle, pay, jobDescription,
@@ -63,6 +67,7 @@ const updateApplication = async (req, res) => {
   }
 };
 
+// Delete an application
 const deleteApplication = async (req, res) => {
   const application = await Application.findById(req.params.id);
 
