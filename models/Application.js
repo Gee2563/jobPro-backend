@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const ApplicationSchema = new mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   companyName: { type: String, required: true },
+  companyWebsite: { type: String },
   jobTitle: { type: String, required: true },
   pay: { type: String },
   jobDescription: { type: String },

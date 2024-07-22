@@ -8,14 +8,14 @@ const getApplications = async (req, res) => {
 
 const createApplication = async (req, res) => {
   const {
-    companyName, jobTitle, pay, jobDescription,
+    companyName, companyWebsite, jobTitle, pay, jobDescription,
     comments, companyLinkedIn, poiName, poiLinkedIn,
     extraInfo, stage,
   } = req.body;
 
   const application = new Application({
     user: req.user._id,
-    companyName, jobTitle, pay, jobDescription,
+    companyName, companyWebsite, jobTitle, pay, jobDescription,
     comments, companyLinkedIn, poiName, poiLinkedIn,
     extraInfo, stage,
   });
@@ -36,7 +36,7 @@ const getApplicationById = async (req, res) => {
 
 const updateApplication = async (req, res) => {
   const {
-    companyName, jobTitle, pay, jobDescription,
+    companyName, companyWebsite, jobTitle, pay, jobDescription,
     comments, companyLinkedIn, poiName, poiLinkedIn,
     extraInfo, stage,
   } = req.body;
@@ -45,6 +45,7 @@ const updateApplication = async (req, res) => {
 
   if (application) {
     application.companyName = companyName || application.companyName;
+    application.companyWebsite = companyWebsite || application.companyWebsite;
     application.jobTitle = jobTitle || application.jobTitle;
     application.pay = pay || application.pay;
     application.jobDescription = jobDescription || application.jobDescription;
