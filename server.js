@@ -9,6 +9,7 @@ const bodyParser = require('body-parser');
 const userRoutes = require('./routes/UserRoutes')
 const applicationRoutes = require('./routes/applicationRoutes');
 const uploadedCvRoutes = require('./routes/uploadedCvRoutes');
+const tailoredCvRoutes = require('./routes/tailoredCvRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -21,6 +22,7 @@ app.use(bodyParser.json());
 app.use('/api/users', userRoutes);
 app.use('/api/applications', applicationRoutes);
 app.use('/api/uploaded-cvs', uploadedCvRoutes);
+app.use('/api/tailored-cvs', tailoredCvRoutes);
 
 
 // Connect to MongoDB
