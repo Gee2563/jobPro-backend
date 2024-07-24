@@ -12,17 +12,21 @@ const getUploadedCVs = async (req, res) => {
 
 // If less than 3 CVs are uploaded, create a new CV
 const createUploadedCV = async (req, res) => {
+  console.log('Creating new uploaded CV', req.body);
   try {
     const userUploadedCVs = await UploadedCV.find({ user: req.user._id });
-    
+    console.log('User uploaded CVs:', userUploadedCVs);
+
     if (userUploadedCVs.length < 3) {
+      
       const { cvComments, cvContent, cvFileName } = req.body;
+      console.log('Creating new uploaded CV', req.body );
 
       const uploadedCV = new UploadedCV({
         user: req.user._id,
-        cvComments,
-        cvContent,
-        cvFileName,
+        cvComments: cvComments,
+        cvContent: cvContent,
+        cvFileName: cvFileName,
       });
 
       const createdUploadedCV = await uploadedCV.save();
@@ -31,9 +35,10 @@ const createUploadedCV = async (req, res) => {
       res.status(400).json({ message: 'You can only upload 3 CVs' });
     }
   } catch (error) {
+    console.log('Failed to create uploaded CV', error);
     res.status(500).json({ message: 'Failed to create uploaded CV', error });
   }
-}
+} 
 
 // Get an uploaded CV by ID
 const getUploadedCVById = async (req, res) => {
