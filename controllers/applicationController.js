@@ -72,7 +72,7 @@ const deleteApplication = async (req, res) => {
   const application = await Application.findById(req.params.id);
 
   if (application) {
-    await application.remove();
+    await Application.deleteOne({ _id: req.params.id });
     res.json({ message: 'Application removed' });
   } else {
     res.status(404).json({ message: 'Application not found' });
