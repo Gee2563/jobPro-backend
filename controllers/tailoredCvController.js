@@ -1,5 +1,5 @@
 const { get } = require('mongoose');
-const tailoredCV = require('../models/TailoredCV');
+const TailoredCV = require('../models/TailoredCV');
 const {tailorCV,updateCV} = require('../middleware/genAiPrompts');
 
 
@@ -7,7 +7,7 @@ const {tailorCV,updateCV} = require('../middleware/genAiPrompts');
 
 // Get all tailored CVs
 const getTailoredCVs = async (req, res) => {
-  const tailoredCVs = await tailoredCV.find({ user: req.user._id });
+  const tailoredCVs = await TailoredCV.find({ user: req.user._id });
   res.json(tailoredCVs);
 };
 
@@ -17,7 +17,7 @@ const createTailoredCV = async (req, res) => {
   
   const tailoredCvContent = tailorCV(originalCvContent, companyWebsite, jobDescriptionUrl);
 
-  const tailoredCv = new tailoredCV({
+  const tailoredCv = new TailoredCV({
     user: req.user._id,
     originalCvContent, tailoredCvContent, companyWebsite, jobDescriptionUrl
   });
@@ -28,7 +28,7 @@ const createTailoredCV = async (req, res) => {
 
 // Get a tailored CV by ID
 const getTailoredCVById = async (req, res) => {
-  const tailoredCV = await tailoredCV.findById(req.params.id);
+  const tailoredCV = await TailoredCV.findById(req.params.id);
 
   if (tailoredCV) {
     res.json(tailoredCV);
@@ -44,13 +44,14 @@ const updateTailoredCV = async (req, res) => {
     
     const tailoredCvContent2 = updateCV(originalCvContent, companyWebsite, jobDescriptionUrl, tailoredCvContent, additionalComments);
     
-    const tailoredCV = await tailoredCV.findById(req.params.id);
+    const tailoredCV = await TailoredCV.findById(req.params.id);
     
     if (tailoredCV) {
         tailoredCV.originalCvContent = originalCvContent;
         tailoredCV.tailoredCvContent = tailoredCvContent2;
         tailoredCV.companyWebsite = companyWebsite;
         tailoredCV.jobDescriptionUrl = jobDescriptionUrl;
+        
         const updatedTailoredCV = await tailoredCV.save();
         res.json(updatedTailoredCV);
     } else {
@@ -60,10 +61,10 @@ const updateTailoredCV = async (req, res) => {
 
 // Delete a tailored CV by ID
 const deleteTailoredCV = async (req, res) => {
-  const tailoredCV = await tailoredCV.findById(req.params.id);
+  const tailoredCV = await TailoredCV.findById(req.params.id);
 
   if (tailoredCV) {
-    await tailoredCV.remove();
+    await TailoredCV.remove();
     res.json({ message: 'Tailored CV removed' });
   } else {
     res.status(404).json({ message: 'Tailored CV not found' });
