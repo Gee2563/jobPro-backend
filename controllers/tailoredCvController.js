@@ -13,13 +13,13 @@ const getTailoredCVs = async (req, res) => {
 
 // Create a new tailored CV
 const createTailoredCV = async (req, res) => {
-  const { originalCvContent, cvFileName } = req.body;
-
-  const tailoredCvContent = tailorCV(originalCvContent);
+  const { originalCvContent, companyWebsite, jobDescriptionUrl } = req.body;
+  
+  const tailoredCvContent = tailorCV(originalCvContent, companyWebsite, jobDescriptionUrl);
 
   const tailoredCv = new tailoredCV({
     user: req.user._id,
-    originalCvContent, tailoredCvContent
+    originalCvContent, tailoredCvContent, companyWebsite, jobDescriptionUrl
   });
 
   const createdTailoredCV = await tailoredCv.save();
@@ -40,16 +40,17 @@ const getTailoredCVById = async (req, res) => {
 // Update a tailored CV by ID
 
 const updateTailoredCV = async (req, res) => {
-    const { originalCvContent, cvFileName } = req.body;
+    const { originalCvContent, tailoredCvContent, companyWebsite, jobDescriptionUrl, additionalComments } = req.body;
     
-    const tailoredCvContent = updateCV(originalCvContent);
+    const tailoredCvContent2 = updateCV(originalCvContent, companyWebsite, jobDescriptionUrl, tailoredCvContent, additionalComments);
     
     const tailoredCV = await tailoredCV.findById(req.params.id);
     
     if (tailoredCV) {
         tailoredCV.originalCvContent = originalCvContent;
-        tailoredCV.tailoredCvContent = tailoredCvContent;
-    
+        tailoredCV.tailoredCvContent = tailoredCvContent2;
+        tailoredCV.companyWebsite = companyWebsite;
+        tailoredCV.jobDescriptionUrl = jobDescriptionUrl;
         const updatedTailoredCV = await tailoredCV.save();
         res.json(updatedTailoredCV);
     } else {
