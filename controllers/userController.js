@@ -55,4 +55,21 @@ const loginUser = async (req, res) => {
   }
 };
 
-module.exports = { registerUser, loginUser };
+//update password for user
+const updatePassword = async (req, res) => {
+  const { currentPassword, newPassword } = req.body;
+  const user = await User.findById(req.user._id);
+
+  if (user && (await user.matchPassword(currentPassword))) {
+    user.password = newPassword;
+    await user.save();
+    res.json({ message: 'Password updated successfully' });
+  }
+  else {
+    res.status(401).json({ message: 'Invalid password' });
+  }
+}
+
+
+
+module.exports = { registerUser, loginUser, updatePassword };
