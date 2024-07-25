@@ -3,12 +3,15 @@ const Application = require('../models/application');
 
 // Get all applications
 const getApplications = async (req, res) => {
+  console.log('I have received your request');
   const applications = await Application.find({ user: req.user._id });
+  console.log('I should send this: ', applications);
   res.json(applications);
 };
 
 // Create a new application
 const createApplication = async (req, res) => {
+  console.log('I have received your request store this data:', req.body);
   const {
     companyName, companyWebsite, jobTitle, pay, jobDescription,
     comments, companyLinkedIn, poiName, poiLinkedIn,
@@ -29,6 +32,7 @@ const createApplication = async (req, res) => {
 // Get an application by ID
 const getApplicationById = async (req, res) => {
   const application = await Application.findById(req.params.id);
+  console.log('I have received your request', application);
 
   if (application) {
     res.json(application);
@@ -79,4 +83,21 @@ const deleteApplication = async (req, res) => {
   }
 };
 
-module.exports = { getApplications, createApplication, getApplicationById, updateApplication, deleteApplication };
+// Update application stage
+const updateApplicationStage = async (req, res) => {
+  const { stage } = req.body;
+
+  const application = await Application.findById(req.params.id);
+
+  if (application) {
+    application.stage = stage || application.stage;
+
+    const updatedApplication = await application.save();
+    res.json(updatedApplication);
+  } else {
+    res.status(404).json({ message: 'Application not found' });
+  }
+}
+
+
+module.exports = { getApplications, createApplication, getApplicationById, updateApplication, deleteApplication, updateApplicationStage };
