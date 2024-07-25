@@ -30,6 +30,7 @@ const createUploadedCV = async (req, res) => {
       });
 
       const createdUploadedCV = await uploadedCV.save();
+      console.log('Successfully created uploaded CV')
       res.status(201).json(createdUploadedCV);
     } else {
       res.status(400).json({ message: 'You can only upload 3 CVs' });
