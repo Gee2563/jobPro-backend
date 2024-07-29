@@ -8,7 +8,7 @@ async function tailorCV(CVContent, companyWebsite, jobDescriptionUrl) {
     messages: [
       {
         role: "system",
-        content: "You are a career coach. Your client has asked you to tailor their CV. They will provide you with the company's website, the URL with the job description, and their CV. You will need to tailor their CV to the company and job application."
+        content: "You are a career coach. Your client has asked you to tailor their CV. They will provide you with the company's website, the URL with the job description, and their CV. You will need to tailor their CV to the company and job application. Only return the updated Cv, no extra words."
       },
       {
         role: "user",
@@ -27,7 +27,7 @@ async function updateCV(CVContent, companyWebsite, jobDescriptionUrl, tailoredCV
     messages: [
       {
         role: "system",
-        content: "You are a career coach. You have previously tailored this client's CV. They have asked you to update it based on their additional comments."
+        content: "You are a career coach. You have previously tailored this client's CV. They have asked you to update it based on their additional comments. Only return the updated Cv, no extra words."
       },
       {
         role: "user",
