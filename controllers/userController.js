@@ -41,10 +41,13 @@ const registerUser = async (req, res) => {
 // Log in a user
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
+  console.log('email:', email);
 
   const user = await User.findOne({ email });
+  console.log('user:', user);
 
   if (user && (await user.matchPassword(password))) {
+    console.log('user matched');
     res.json({
       _id: user._id,
       email: user.email,
