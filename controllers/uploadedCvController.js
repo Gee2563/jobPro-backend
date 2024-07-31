@@ -3,7 +3,10 @@ const UploadedCV = require('../models/UploadedCV');
 // Get all uploaded CVs
 const getUploadedCVs = async (req, res) => {
   try {
+    console.log('Request from:', req.user._id);
+    console.log('I have received your request for a CV');
     const uploadedCVs = await UploadedCV.find({ user: req.user._id });
+    console.log('I have found your CVs:', uploadedCVs);
     res.json(uploadedCVs);
   } catch (error) {
     res.status(500).json({ message: 'Failed to fetch uploaded CVs', error });
@@ -12,10 +15,10 @@ const getUploadedCVs = async (req, res) => {
 
 // If less than 3 CVs are uploaded, create a new CV
 const createUploadedCV = async (req, res) => {
+  console.log('Request from:', req.user._id);
   console.log('Creating new uploaded CV', req.body);
   try {
-    const userUploadedCVs = await UploadedCV.find({ user: req.user._id });
-    console.log('User uploaded CVs:', userUploadedCVs);
+    const userUploadedCVs = await UploadedCV.find({ user: req.user._id })
 
     if (userUploadedCVs.length < 3) {
       
@@ -31,6 +34,7 @@ const createUploadedCV = async (req, res) => {
 
       const createdUploadedCV = await uploadedCV.save();
       console.log('Successfully created uploaded CV')
+      console.log('I have created your CV:', createdUploadedCV);
       res.status(201).json(createdUploadedCV);
     } else {
       res.status(400).json({ message: 'You can only upload 3 CVs' });

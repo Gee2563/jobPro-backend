@@ -3,15 +3,22 @@ const Application = require('../models/application');
 
 // Get all applications
 const getApplications = async (req, res) => {
+  console.log('Request from:', req.user._id);
   console.log('I have received your request');
-  const applications = await Application.find({ user: req.user._id });
-  console.log('I should send this: ', applications);
-  res.json(applications);
+  try {
+    const applications = await Application.find({ user: req.user._id });
+    console.log('I should send this: ', applications.map(app => app.user));
+    res.json(applications);
+  } catch (error) {
+    console.error('Error retrieving applications:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
 };
 
 // Create a new application
 const createApplication = async (req, res) => {
-  console.log('I have received your request store this data:', req.body);
+  console.log('Request from:', req.user._id);
+  console.log('I have received your request to create an application');
   const {
     companyName, companyWebsite, jobTitle, pay, jobDescription,
     comments, companyLinkedIn, poiName, poiLinkedIn,
