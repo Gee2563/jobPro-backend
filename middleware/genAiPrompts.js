@@ -8,7 +8,7 @@ async function tailorCV(CVContent, companyWebsite, jobDescriptionUrl) {
     messages: [
       {
         role: "system",
-        content: "You are a career coach. Your client has asked you to tailor their CV. They will provide you with the company's website, the URL with the job description, and their CV. You will need to tailor their CV to the company and job application. Only return the updated Cv, no extra words."
+        content: "You are a career coach. Your client has asked you to tailor their CV. They will provide you with the company's website, the URL with the job description, and their CV. You will need to tailor their CV to the company and job application. Try and make it pass their ATS. Only return the updated Cv, no extra words."
       },
       {
         role: "user",
@@ -41,14 +41,14 @@ async function updateCV(CVContent, companyWebsite, jobDescriptionUrl, tailoredCV
 }
 
 
-async function generateResume(CVContent, companyWebsite, jobDescriptionUrl) {
+async function generateLetter(CVContent, companyWebsite, jobDescriptionUrl) {
   console.log('I received :', CVContent, companyWebsite, jobDescriptionUrl)
   const completion = await openai.chat.completions.create({
     
     messages: [
       {
         role: "system",
-        content: "You are a career coach. Your client has asked you to generate a resume. They will provide you with the company's website, the URL with the job description, and their CV. You will need to generate a cover letter to the company and job application. Only return the resume, no extra words."
+        content: "You are a career coach. Your client has asked you to write them a cover leter for a job they really want. They will provide you with the company's website, the URL with the job description, and their CV. You will need to write the cover letter and tailor it based on the company and job application. Only return the letter, no extra words."
       },
       {
         role: "user",
@@ -62,16 +62,16 @@ async function generateResume(CVContent, companyWebsite, jobDescriptionUrl) {
   return completion.choices[0].message.content;
 }
 
-async function updateResume(CVContent, companyWebsite, jobDescriptionUrl, generatedResumeContent, additionalComments) {
+async function updateLetter(CVContent, companyWebsite, jobDescriptionUrl, genLetterContent, additionalComments) {
   const completion = await openai.chat.completions.create({
     messages: [
       {
         role: "system",
-        content: "You are a career coach. You have previously tailored this client's resume. They have asked you to update it based on their additional comments. Only return the updated resume, no extra words."
+        content: "You are a career coach. You have previously written a cover letter for this client. They have asked you to update it based on their additional comments. Only return the updated cover letter, no extra words."
       },
       {
         role: "user",
-        content: `The previous version: ${generatedResumeContent}. Here is my CV: ${CVContent}. Here are the company's website: ${companyWebsite}. Here is the URL with the job description: ${jobDescriptionUrl}. These are my additional comments: ${additionalComments}`
+        content: `The previous version: ${genLetterContent}. Here is my CV: ${CVContent}. Here are the company's website: ${companyWebsite}. Here is the URL with the job description: ${jobDescriptionUrl}. These are my additional comments: ${additionalComments}`
       },
     ],
     model: "gpt-4o-mini",
@@ -80,6 +80,4 @@ async function updateResume(CVContent, companyWebsite, jobDescriptionUrl, genera
   return completion.choices[0].message.content;
 }
 
-
-
-module.exports = { tailorCV, updateCV, generateResume, updateResume };
+module.exports = { tailorCV, updateCV, generateLetter, updateLetter };

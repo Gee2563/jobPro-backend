@@ -11,7 +11,7 @@ const userRoutes = require('./routes/UserRoutes')
 const applicationRoutes = require('./routes/applicationRoutes');
 const uploadedCvRoutes = require('./routes/uploadedCvRoutes');
 const tailoredCvRoutes = require('./routes/tailoredCvRoutes');
-const generatedResumeRoutes = require('./routes/generatedResumeRoutes');
+const genLetterRoutes = require('./routes/genLetterRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -25,7 +25,9 @@ app.use('/api/users', userRoutes);
 app.use('/api/applications', applicationRoutes);
 app.use('/api/uploaded-cvs', uploadedCvRoutes);
 app.use('/api/tailored-cvs', tailoredCvRoutes);
-app.use('/api/generated-resumes', generatedResumeRoutes);
+app.use('/api/gen-letters', genLetterRoutes);
+
+
 
 
 // Connect to MongoDB
