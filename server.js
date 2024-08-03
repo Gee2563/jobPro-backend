@@ -16,13 +16,23 @@ const genLetterRoutes = require('./routes/genLetterRoutes');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware
-app.use(cors({
-  origin: 'https://job-pro-khaki.vercel.app', 
+const corsOptions = {
+  origin: 'https://job-pro-khaki.vercel.app', // Replace with your actual frontend domain
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
-}));
+};
+
+app.use(cors(corsOptions));
+
+
+// Middleware
 app.use(bodyParser.json());
+
+app.use((req, res, next) => {
+  console.log(`Request Method: ${req.method}`);
+  console.log(`Request URL: ${req.url}`);
+  next();
+});
 
 // Routes
 app.use('/api/users', userRoutes);
