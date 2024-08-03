@@ -22,14 +22,15 @@ const createApplication = async (req, res) => {
   const {
     companyName, companyWebsite, jobTitle, pay, jobDescription,
     comments, companyLinkedIn, poiName, poiLinkedIn,
-    extraInfo, stage,
+    extraInfo, stage, location, remoteOnsite, tailoredCv, genLetter,
+    jobUrl,
   } = req.body;
 
   const application = new Application({
     user: req.user._id,
     companyName, companyWebsite, jobTitle, pay, jobDescription,
     comments, companyLinkedIn, poiName, poiLinkedIn,
-    extraInfo, stage,
+    extraInfo, stage, location, remoteOnsite, tailoredCv, genLetter, jobUrl,
   });
 
   const createdApplication = await application.save();
@@ -53,7 +54,8 @@ const updateApplication = async (req, res) => {
   const {
     companyName, companyWebsite, jobTitle, pay, jobDescription,
     comments, companyLinkedIn, poiName, poiLinkedIn,
-    extraInfo, stage,
+    extraInfo, stage, location, remoteOnsite, tailoredCv, genLetter,
+    jobUrl,
   } = req.body;
 
   const application = await Application.findById(req.params.id);
@@ -70,6 +72,12 @@ const updateApplication = async (req, res) => {
     application.poiLinkedIn = poiLinkedIn || application.poiLinkedIn;
     application.extraInfo = extraInfo || application.extraInfo;
     application.stage = stage || application.stage;
+    application.location = location || application.location;
+    application.remoteOnsite = remoteOnsite || application.remoteOnsite;
+    application.tailoredCv = tailoredCv || application.tailoredCv;
+    application.genLetter = genLetter || application.genLetter;
+    application.jobUrl = jobUrl || application.jobUrl;  
+
 
     const updatedApplication = await application.save();
     res.json(updatedApplication);
