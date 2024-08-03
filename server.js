@@ -17,12 +17,14 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 const corsOptions = {
-  origin: 'https://job-pro-khaki.vercel.app', // Replace with your actual frontend domain
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  origin: 'https://job-pro-khaki.vercel.app', 
+  credentials:true,            
+  optionSuccessStatus:200,
 };
 
+
 app.use(cors(corsOptions));
+app.options('*', cors(corsOptions)); 
 
 
 // Middleware
