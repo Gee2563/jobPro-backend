@@ -18,7 +18,9 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors({
-  origin: 'job-pro-khaki.vercel.app'  // Replace with your Vercel domain
+  origin: 'job-pro-khaki.vercel.app', // Replace with your Vercel domain
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 app.use(bodyParser.json());
 
