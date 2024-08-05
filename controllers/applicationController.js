@@ -1,5 +1,5 @@
 // controllers/applicationController.js
-const Application = require('../models/application');
+const Application = require('../models/Application');
 
 // Get all applications
 const getApplications = async (req, res) => {
