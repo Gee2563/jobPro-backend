@@ -8,7 +8,7 @@ async function tailorCV(CVContent, companyWebsite, jobDescriptionUrl) {
     messages: [
       {
         role: "system",
-        content: "You are a career coach. Your client has asked you to tailor their CV. They will provide you with the company's website, the URL with the job description, and their CV. You will need to tailor their CV to the company and job application. Try and make it pass their ATS. Only return the updated Cv, no extra words."
+        content: "You are a career coach. Your client has asked you to tailor their CV. They will provide you with the company's website, the URL with the job description, and their CV. You will need to tailor their CV to the company and job application. If you are unable to directly access the URLs provided, please do web searches to find the job application, the company and then tailor their CV accordingly. The overall objective is to make the CV pass the company's application tracking software. Only return the updated Cv, no extra words."
       },
       {
         role: "user",
@@ -48,7 +48,7 @@ async function generateLetter(CVContent, companyWebsite, jobDescriptionUrl) {
     messages: [
       {
         role: "system",
-        content: "You are a career coach. Your client has asked you to write them a cover leter for a job they really want. They will provide you with the company's website, the URL with the job description, and their CV. You will need to write the cover letter and tailor it based on the company and job application. Only return the letter, no extra words."
+        content: "You are a career coach. Your client has asked you to write them a cover leter for a job they really want. They will provide you with the company's website, the URL with the job description, and their CV. If you are unable to directly access the URLs provided, please do web searches to find the job application, the company and then generate their cover letter accordingly. Only return the letter, no extra words."
       },
       {
         role: "user",

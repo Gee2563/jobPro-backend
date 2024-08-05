@@ -16,18 +16,11 @@ const genLetterRoutes = require('./routes/genLetterRoutes');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-const corsOptions = {
-  origin: 'https://job-pro-khaki.vercel.app', 
-  credentials:true,            
-  optionSuccessStatus:200,
-};
 
-
-app.use(cors(corsOptions));
-app.options('*', cors(corsOptions)); 
 
 
 // Middleware
+app.use(cors());
 app.use(bodyParser.json());
 
 app.use((req, res, next) => {
