@@ -1,5 +1,5 @@
 const express = require('express');
-const { registerUser, loginUser } = require('../controllers/userController');
+const { registerUser, loginUser, updatePassword } = require('../controllers/userController');
 const authenticateToken = require('../middleware/authMiddleware'); // Ensure this is the correct path
 const router = express.Router();
 
@@ -17,8 +17,6 @@ router.get('/me', authenticateToken, (req, res) => {
 });
 
 // Route to update user password
-router.put('/password', authenticateToken, (req, res) => {
-  res.send('Update password');
-});
+router.put('/password', authenticateToken, updatePassword);
 
 module.exports = router;

@@ -1,5 +1,12 @@
 Back End server for jobPro project.
 
+## Required environment variables
+
+- `MONGO_URI`: MongoDB Atlas connection string. Use the exact URI from Atlas (`mongodb+srv://...`).
+- `JWT_SECRET`: Secret used to sign auth tokens.
+- `FRONTEND_ORIGINS`: Comma-separated allowed origins for CORS.
+  - Example: `https://job-pro-khaki.vercel.app,http://localhost:5173`
+
 Implementation stages.
 
 1) CRUD user credentials - done

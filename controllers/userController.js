@@ -12,67 +12,78 @@ const generateToken = (id) => {
 
 // Register a new user
 const registerUser = async (req, res) => {
-  const { name, email, password } = req.body;
+  try {
+    const { email, password } = req.body || {};
 
-  const userExists = await User.findOne({ email });
+    if (!email || !password) {
+      return res.status(400).json({ message: 'Email and password are required' });
+    }
 
-  if (userExists) {
-    return res.status(400).json({ message: 'User already exists' });
-  }
+    const userExists = await User.findOne({ email });
 
-  const user = await User.create({
-    name,
-    email,
-    password,
-  });
+    if (userExists) {
+      return res.status(400).json({ message: 'User already exists' });
+    }
 
-  if (user) {
-    res.status(201).json({
+    const user = await User.create({
+      email,
+      password,
+    });
+
+    return res.status(201).json({
       _id: user._id,
-
       email: user.email,
       token: generateToken(user._id),
     });
-  } else {
-    res.status(400).json({ message: 'Invalid user data' });
+  } catch (error) {
+    console.error('registerUser error:', error);
+    return res.status(500).json({ message: 'Registration failed' });
   }
 };
 
 // Log in a user
 const loginUser = async (req, res) => {
-  const { email, password } = req.body;
-  console.log('email:', email);
+  try {
+    const { email, password } = req.body || {};
 
-  const user = await User.findOne({ email });
-  console.log('user:', user);
+    if (!email || !password) {
+      return res.status(400).json({ message: 'Email and password are required' });
+    }
 
-  if (user && (await user.matchPassword(password))) {
-    console.log('user matched');
-    res.json({
-      _id: user._id,
-      email: user.email,
-      token: generateToken(user._id),
-    });
-  } else {
-    res.status(401).json({ message: 'Invalid email or password' });
+    const user = await User.findOne({ email });
+
+    if (user && (await user.matchPassword(password))) {
+      return res.json({
+        _id: user._id,
+        email: user.email,
+        token: generateToken(user._id),
+      });
+    }
+
+    return res.status(401).json({ message: 'Invalid email or password' });
+  } catch (error) {
+    console.error('loginUser error:', error);
+    return res.status(500).json({ message: 'Login failed' });
   }
 };
 
 //update password for user
 const updatePassword = async (req, res) => {
-  const { currentPassword, newPassword } = req.body;
-  const user = await User.findById(req.user._id);
+  try {
+    const { currentPassword, newPassword } = req.body || {};
+    const user = await User.findById(req.user._id);
 
-  if (user && (await user.matchPassword(currentPassword))) {
-    user.password = newPassword;
-    await user.save();
-    res.json({ message: 'Password updated successfully' });
+    if (user && (await user.matchPassword(currentPassword))) {
+      user.password = newPassword;
+      await user.save();
+      return res.json({ message: 'Password updated successfully' });
+    }
+
+    return res.status(401).json({ message: 'Invalid password' });
+  } catch (error) {
+    console.error('updatePassword error:', error);
+    return res.status(500).json({ message: 'Password update failed' });
   }
-  else {
-    res.status(401).json({ message: 'Invalid password' });
-  }
-}
-
-
+};
 
 module.exports = { registerUser, loginUser, updatePassword };
